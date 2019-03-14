@@ -11,12 +11,15 @@
 #' @examples
 
 getUpStrmPath = function(site, configurationFile, include.MMR.sites = F, rootSite = 'GRA') {
+
   sitePath = NULL
   dwnStrmSite = findDwnStrmSite(site,
                                 configurationFile,
                                 include.MMR.sites = include.MMR.sites,
                                 rootSite = rootSite)
-  sitePath = c(site, dwnStrmSite)
+  sitePath = c(site, dwnStrmSite) %>%
+    unique()
+
   while(sum(grepl(rootSite, sitePath)) == 0) {
     dwnStrmSite = findDwnStrmSite(dwnStrmSite,
                                   configurationFile,
@@ -24,5 +27,8 @@ getUpStrmPath = function(site, configurationFile, include.MMR.sites = F, rootSit
                                   rootSite = rootSite)
     sitePath = c(sitePath, dwnStrmSite)
   }
-  return(rev(sitePath))
+  pathToSite = sitePath %>%
+    rev %>%
+    paste(collapse = '.')
+  return(pathToSite)
 }
