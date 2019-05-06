@@ -8,9 +8,18 @@
 #'
 #' @import dplyr stringr
 #' @return NULL
+#' @export
 #' @examples
 
-getUpStrmPath = function(site, configurationFile, include.MMR.sites = F, rootSite = 'GRA') {
+getUpStrmPath = function(site,
+                         configurationFile,
+                         include.MMR.sites = F,
+                         rootSite = 'GRA') {
+
+  if(!rootSite %in% configurationFile$SiteID) {
+    return(NA)
+    stop('rootSite code not found in configuraiton file.')
+  }
 
   sitePath = NULL
   dwnStrmSite = findDwnStrmSite(site,
