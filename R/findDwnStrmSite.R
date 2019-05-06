@@ -11,6 +11,7 @@
 #'
 #' @import dplyr stringr
 #' @return NULL
+#' @export
 #' @examples
 
 findDwnStrmSite = function(site,
@@ -27,11 +28,11 @@ findDwnStrmSite = function(site,
     unique()
 
   dwnstrmSites = configurationFile %>%
-    filter(grepl(str_sub(siteRKM, end = -5), RKM)) %>%
-    mutate(rmRKM = str_remove(RKM, str_sub(siteRKM, end = -4))) %>%
+    filter(grepl(stringr::str_sub(siteRKM, end = -5), RKM)) %>%
+    mutate(rmRKM = stringr::str_remove(RKM, stringr::str_sub(siteRKM, end = -4))) %>%
     filter(nchar(rmRKM) <= 3 | SiteID == site) %>%
     mutate(rmRKM = as.numeric(rmRKM)) %>%
-    filter(rmRKM < as.numeric(str_sub(siteRKM, start = -3)))
+    filter(rmRKM < as.numeric(stringr::str_sub(siteRKM, start = -3)))
 
   if(!include.MMR.sites) {
     dwnstrmSites = dwnstrmSites %>%
