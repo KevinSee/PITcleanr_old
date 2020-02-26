@@ -45,7 +45,7 @@ writePRONodeNetwork = function() {
   site_df_init = tibble(SiteID = unlist(bin_all),
                         path = names(unlist(bin_all))) %>%
     mutate(path = stringr::str_replace(path,
-                                       '[[:digit:]]$',
+                                       '[[:digit:]]+',
                                        '')) %>%
     rowwise() %>%
     mutate(path = ifelse(stringr::str_sub(path, start = -nchar(SiteID)) != SiteID,
